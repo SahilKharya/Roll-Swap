@@ -39,5 +39,10 @@
   "devDependencies": {
     "husky": "^8.0.1",
     "lint-staged": "^13.0.3"
+  },
+  "dependencies": {
+    "@chainlink/contracts": "^1.1.0",
+    "scaffold-eth": "^0.1.2",
+    "wagmi": "^2.7.0"
   }
 }
