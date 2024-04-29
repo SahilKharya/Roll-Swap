@@ -29,10 +29,11 @@
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.0",
+    "scaffold-eth": "^0.1.2",
     "use-debounce": "^8.0.4",
     "usehooks-ts": "^2.13.0",
     "viem": "^2.8.16",
-    "wagmi": "^2.5.12",
+    "wagmi": "^2.7.0",
     "zustand": "^4.1.2"
   },
   "devDependencies": {
