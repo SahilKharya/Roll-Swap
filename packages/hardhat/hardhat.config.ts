@@ -22,7 +22,7 @@ const config: HardhatUserConfig = {
   solidity: {
     version: "0.8.17",
   },
-  defaultNetwork: "localhost",
+  defaultNetwork: "scrollSepolia",
   namedAccounts: {
     deployer: {
       // By default, it will take the first Hardhat account as the deployer
@@ -56,7 +56,7 @@ const config: HardhatUserConfig = {
     },
   },
   // configuration for harhdat-verify plugin
-  // Deployed on 0x0e2f8065ed15778b16600f180f3863566438fbab8794cee1db4fef9da7921610
+  // Deployed on 0xB28FB7EC9Fd7fB33bFaD311360Ca5Bd45463f092
   etherscan: {
     apiKey: {
       scrollSepolia: etherscanApiKey,

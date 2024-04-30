@@ -42,6 +42,7 @@
   },
   "dependencies": {
     "@chainlink/contracts": "^1.1.0",
+    "axios": "^1.6.8",
     "scaffold-eth": "^0.1.2",
     "wagmi": "^2.7.0"
   }

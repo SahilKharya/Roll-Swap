@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   534351: {
     RollSwap: {
-      address: "0xE0dC7De8bf532f24C50f9514676473C5ea8C1726",
+      address: "0x93FB733ea2625D2D74569Ed6dF2Ce98467FEd250",
       abi: [
         {
           inputs: [],

@@ -24,6 +24,7 @@ interface AggregatorV3Interface {
 
 contract RollSwap is ReentrancyGuard {
     using EnumerableSet for EnumerableSet.AddressSet;
+    AggregatorV3Interface internal priceFeed;
 
     struct Quote {
         uint256 id;
@@ -41,14 +42,11 @@ contract RollSwap is ReentrancyGuard {
     mapping(uint256 => Quote) public quotes;
     EnumerableSet.AddressSet private makers;
 
-    AggregatorV3Interface internal priceFeed;
-
     event QuoteCreated(uint256 indexed id, address indexed maker, address tokenIn, address tokenOut, uint256 amountIn, uint256 amountOut, uint256 expiry);
     event QuoteAccepted(uint256 indexed id, address indexed taker);
 
     constructor() {
         _quoteIdCounter = 0;
-
         // Initialize the Chainlink Price Feed (this is an example address for ETH/USD on Scroll Sepolia)
         priceFeed = AggregatorV3Interface(0x59F1ec1f10bD7eD9B938431086bC1D9e233ECf41);
     }
@@ -96,6 +94,7 @@ contract RollSwap is ReentrancyGuard {
         ) = priceFeed.latestRoundData();
         return price;
     }
+    
     function acceptQuote(uint256 quoteId) external nonReentrant {
         Quote storage quote = quotes[quoteId];
         require(quote.isActive && block.timestamp <= quote.expiry, "Quote is not active or has expired");

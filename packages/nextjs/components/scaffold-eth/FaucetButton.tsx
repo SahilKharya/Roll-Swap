@@ -1,14 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { useQueryClient } from "@tanstack/react-query";
+import { useState } from "react";
+import { useTheme } from "next-themes";
 import { createWalletClient, http, parseEther } from "viem";
 import { hardhat } from "viem/chains";
-import { useAccount, useBlockNumber } from "wagmi";
-import { useBalance } from "wagmi";
+import { useAccount, useNetwork } from "wagmi";
 import { BanknotesIcon } from "@heroicons/react/24/outline";
-import { useTransactor } from "~~/hooks/scaffold-eth";
-import { useTargetNetwork } from "~~/hooks/scaffold-eth/useTargetNetwork";
+import { useAccountBalance, useTransactor } from "~~/hooks/scaffold-eth";
 
 // Number of ETH faucet sends to an address
 const NUM_OF_ETH = "1";
@@ -23,23 +21,16 @@ const localWalletClient = createWalletClient({
  * FaucetButton button which lets you grab eth.
  */
 export const FaucetButton = () => {
-  const { address, chain: ConnectedChain } = useAccount();
-  const { targetNetwork } = useTargetNetwork();
+  const { address } = useAccount();
+  const { balance } = useAccountBalance(address);
+  const { resolvedTheme } = useTheme();
+  const isDarkMode = resolvedTheme === "dark";
 
-  const queryClient = useQueryClient();
-  const { data: blockNumber } = useBlockNumber({ watch: true, chainId: targetNetwork.id });
-  const { data: balance, queryKey } = useBalance({
-    address,
-  });
+  const { chain: ConnectedChain } = useNetwork();
 
   const [loading, setLoading] = useState(false);
 
   const faucetTxn = useTransactor(localWalletClient);
-
-  useEffect(() => {
-    queryClient.invalidateQueries({ queryKey });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [blockNumber]);
 
   const sendETH = async () => {
     try {
@@ -62,18 +53,22 @@ export const FaucetButton = () => {
     return null;
   }
 
-  const isBalanceZero = balance && balance.value === 0n;
-
   return (
     <div
       className={
-        !isBalanceZero
+        balance
           ? "ml-1"
           : "ml-1 tooltip tooltip-bottom tooltip-secondary tooltip-open font-bold before:left-auto before:transform-none before:content-[attr(data-tip)] before:right-0"
       }
       data-tip="Grab funds from faucet"
     >
-      <button className="btn btn-secondary btn-sm px-2 rounded-full" onClick={sendETH} disabled={loading}>
+      <button
+        className={`btn btn-secondary ${
+          isDarkMode ? "hover:bg-black/20" : ""
+        } focus:bg-secondary hover:shadow-lg btn-sm px-2 rounded-full`}
+        onClick={sendETH}
+        disabled={loading}
+      >
         {!loading ? (
           <BanknotesIcon className="h-4 w-4" />
         ) : (
